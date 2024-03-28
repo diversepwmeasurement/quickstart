@@ -1,14 +1,10 @@
-name: WildFly helloworld-singleton Quickstart CI
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-      - 'helloworld-singleton/**'
-      - '.github/workflows/quickstart_ci.yml'
 jobs:
   call-quickstart_ci:
     uses: ./.github/workflows/quickstart_ci.yml
     with:
       QUICKSTART_PATH: helloworld-singleton
       TEST_PROVISIONED_SERVER: true
+name: WildFly helloworld-singleton Quickstart CI
+on:
+  repository_dispatch:
+    types: trigger-ga___quickstart_helloworld-singleton_ci.yml

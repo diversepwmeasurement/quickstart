@@ -1,67 +1,54 @@
-name: Deploy Quickstart html to Pages
-
-on:
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag to publish'
-        required: true
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "pages"
   cancel-in-progress: false
-
+  group: pages
 jobs:
-  # Build job
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - name: Check out tag to publish
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.tag }}
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 17
-          cache: 'maven'
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v4
-      - name: Build with Maven
-        run: mvn -U -B -ntp clean package -DskipTests -Pdocs -Dpublish
-      - name: Rename README.html to index.html
-        shell: bash
-        run: mv dist/target/site/README.html dist/target/site/index.html
-#        # For source browsing we need to generate indexes for directories
-#      - name: Generate a directory listing index.html for any directory without an pre-existing index.html
-#        uses: jayanta525/github-pages-directory-listing@v3.0.0
-#        with:
-#          FOLDER: dist/target/site
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './dist/target/site'
-
-
-  # Deployment job
+    - continue-on-error: true
+      name: Check out tag to publish
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.tag }}
+    - continue-on-error: true
+      name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        cache: maven
+        distribution: temurin
+        java-version: 17
+    - continue-on-error: true
+      id: pages
+      name: Setup Pages
+      uses: actions/configure-pages@v4
+    - continue-on-error: true
+      name: Build with Maven
+      run: mvn -U -B -ntp clean package -DskipTests -Pdocs -Dpublish
+    - continue-on-error: true
+      name: Rename README.html to index.html
+      run: mv dist/target/site/README.html dist/target/site/index.html
+      shell: bash
+    - continue-on-error: true
+      name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./dist/target/site
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     needs: build
+    runs-on: self-hosted
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+    - continue-on-error: true
+      id: deployment
+      name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
+name: Deploy Quickstart html to Pages
+on:
+  repository_dispatch:
+    types: trigger-ga___publish-pages.yml
+permissions:
+  contents: read
+  id-token: write
+  pages: write

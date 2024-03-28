@@ -1,17 +1,12 @@
-name: WildFly mail Quickstart CI
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-      - 'mail/**'
-      - '.github/workflows/quickstart_ci.yml'
-
 jobs:
   call-quickstart_ci:
     uses: ./.github/workflows/quickstart_ci.yml
     with:
-      QUICKSTART_PATH: mail
-      TEST_PROVISIONED_SERVER: true
-      TEST_OPENSHIFT: false
       MATRIX_OS: '"ubuntu-latest"'
+      QUICKSTART_PATH: mail
+      TEST_OPENSHIFT: false
+      TEST_PROVISIONED_SERVER: true
+name: WildFly mail Quickstart CI
+on:
+  repository_dispatch:
+    types: trigger-ga___quickstart_mail_ci.yml

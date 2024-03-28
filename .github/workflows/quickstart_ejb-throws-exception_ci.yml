@@ -1,18 +1,13 @@
-name: WildFly ejb-throws-exception Quickstart CI
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-      - 'ejb-throws-exception/**'
-      - '.github/workflows/quickstart_ci.yml'
-
 jobs:
   call-quickstart_ci:
     uses: ./.github/workflows/quickstart_ci.yml
     with:
-      QUICKSTART_PATH: ejb-throws-exception
       DEPLOYMENT_DIR: ear
-      TEST_PROVISIONED_SERVER: true
-      TEST_OPENSHIFT: false
       MVN_COMMAND: install
+      QUICKSTART_PATH: ejb-throws-exception
+      TEST_OPENSHIFT: false
+      TEST_PROVISIONED_SERVER: true
+name: WildFly ejb-throws-exception Quickstart CI
+on:
+  repository_dispatch:
+    types: trigger-ga___quickstart_ejb-throws-exception_ci.yml

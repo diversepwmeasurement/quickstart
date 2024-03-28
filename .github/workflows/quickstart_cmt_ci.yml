@@ -1,14 +1,10 @@
-name: WildFly cmt Quickstart CI
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-      - 'cmt/**'
-      - '.github/workflows/quickstart_ci.yml'
 jobs:
   call-quickstart_ci:
     uses: ./.github/workflows/quickstart_ci.yml
     with:
       QUICKSTART_PATH: cmt
       TEST_PROVISIONED_SERVER: true
+name: WildFly cmt Quickstart CI
+on:
+  repository_dispatch:
+    types: trigger-ga___quickstart_cmt_ci.yml

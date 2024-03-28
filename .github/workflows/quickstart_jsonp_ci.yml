@@ -1,14 +1,10 @@
-name: WildFly jsonp Quickstart CI
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-      - 'jsonp/**'
-      - '.github/workflows/quickstart_ci.yml'
 jobs:
   call-quickstart_ci:
     uses: ./.github/workflows/quickstart_ci.yml
     with:
       QUICKSTART_PATH: jsonp
       TEST_PROVISIONED_SERVER: true
+name: WildFly jsonp Quickstart CI
+on:
+  repository_dispatch:
+    types: trigger-ga___quickstart_jsonp_ci.yml

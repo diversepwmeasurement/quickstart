@@ -1,17 +1,12 @@
-name: WildFly http-custom-mechanism Quickstart CI
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-      - 'http-custom-mechanism/**'
-      - .github/workflows/quickstart_ci.yml
-
 jobs:
   call-quickstart_ci:
     uses: ./.github/workflows/quickstart_ci.yml
     with:
-      QUICKSTART_PATH: http-custom-mechanism
       DEPLOYMENT_DIR: webapp
-      TEST_PROVISIONED_SERVER: true
+      QUICKSTART_PATH: http-custom-mechanism
       TEST_OPENSHIFT: false
+      TEST_PROVISIONED_SERVER: true
+name: WildFly http-custom-mechanism Quickstart CI
+on:
+  repository_dispatch:
+    types: trigger-ga___quickstart_http-custom-mechanism_ci.yml

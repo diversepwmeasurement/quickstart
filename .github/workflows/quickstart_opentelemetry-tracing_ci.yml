@@ -1,16 +1,11 @@
-
-name: WildFly opentelemetry-tracing Quickstart CI
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-      - 'opentelemetry-tracing/**'
-      - '.github/workflows/quickstart_ci.yml'
 jobs:
   call-quickstart_ci:
     uses: ./.github/workflows/quickstart_ci.yml
     with:
       QUICKSTART_PATH: opentelemetry-tracing
-      TEST_PROVISIONED_SERVER: true
       TEST_BOOTABLE_JAR: true
+      TEST_PROVISIONED_SERVER: true
+name: WildFly opentelemetry-tracing Quickstart CI
+on:
+  repository_dispatch:
+    types: trigger-ga___quickstart_opentelemetry-tracing_ci.yml
